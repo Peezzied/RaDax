@@ -1,0 +1,7 @@
+{
+  "name": "RaDax",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
