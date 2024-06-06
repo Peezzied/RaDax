@@ -1,22 +1,27 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const Home: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader translucent={true}>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>Calculator</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <ExploreContainer />
+      <IonContent>
+        <Alert>
+          <AlertTitle>Heads up!</AlertTitle>
+          <AlertDescription>
+            You can add components and dependencies to your app using the cli.
+          </AlertDescription>
+        </Alert>
       </IonContent>
     </IonPage>
   );
