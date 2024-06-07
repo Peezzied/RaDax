@@ -1,7 +1,7 @@
 export const cryptoFetch = async () => {
     console.log('fetching crypto')
     let res = await fetch('https://services.pdax.ph/api/liquidity/otc/v1/marketprices')
-    let data = await res.json()asd
+    let data = await res.json()
 
     let coin = data.result.filter((i) => {
         return !i.currencyPair.includes('BILL') && i.currencyPair !== ''
