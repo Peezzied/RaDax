@@ -1,0 +1,23 @@
+.md ion-title {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    height: 0;
+    text-align: center;
+}
+
+ion-button {
+    --background: white !important;
+    width: 2.5rem !important; height: 2.5rem !important;
+    --border-radius: 0;
+    --padding-top: 0x !important;
+    --padding-bottom: 0px !important;
+    --padding-start: 0px !important;
+    --padding-end: 0px !important;
+}
+ion-toolbar {
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+    --padding-start: .5rem;
+    --padding-end: .5rem;
+}

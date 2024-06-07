@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+ion-searchbar.custom {
+    --box-shadow: 0px;
+    --border-radius: 8px
+}

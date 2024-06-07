@@ -4,24 +4,39 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonButtons,
+  IonIcon,
+  IonButton,
 } from "@ionic/react";
+import {
+  ellipsisHorizontal,
+  ellipsisVertical,
+} from "ionicons/icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import './Home.css'
+import { ComboboxDemo } from "@/components/CryptoBox";
 
 const Home: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader translucent={true}>
-        <IonToolbar>
-          <IonTitle>Calculator</IonTitle>
+      <IonHeader className="ion-no-border">
+        <IonToolbar >
+          <IonTitle class="font-display text-black ion-text-center">
+            RaDax Calculator
+          </IonTitle>
+          <IonButtons slot="primary">
+            <IonButton>
+              <IonIcon
+                slot="icon-only"
+                ios={ellipsisHorizontal}
+                md={ellipsisVertical}
+              ></IonIcon>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
-        <Alert>
-          <AlertTitle>Heads up!</AlertTitle>
-          <AlertDescription>
-            You can add components and dependencies to your app using the cli.
-          </AlertDescription>
-        </Alert>
+      <IonContent className="ion-padding">
+        <ComboboxDemo/>
       </IonContent>
     </IonPage>
   );

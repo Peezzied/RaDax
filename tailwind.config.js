@@ -16,6 +16,11 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      'body': ['Work Sans', 'sans-serif'],
+      'mono': ['Space Grotesk', 'monospace'],
+      'display': ['Poppins', 'system-ui']
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
