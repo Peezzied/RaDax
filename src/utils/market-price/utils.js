@@ -40,7 +40,7 @@ const getDifference = (buy, sell, type) => {
     }
 }
 
-class BuySell {
+export class BuySell {
     constructor(ask, bid) {
         this.ask = ask
         this.bid = bid
