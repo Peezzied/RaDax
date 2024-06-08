@@ -22,31 +22,7 @@ import {
 import { IonCol, IonGrid, IonImg, IonRow, IonSkeletonText } from "@ionic/react";
 import { cryptoFetch } from '../utils/market-price/index.js'
 
-
-const frameworks = [
-    {
-        value: "next.js",
-        label: "Next.js",
-    },
-    {
-        value: "sveltekit",
-        label: "SvelteKit",
-    },
-    {
-        value: "nuxt.js",
-        label: "Nuxt.js",
-    },
-    {
-        value: "remix",
-        label: "Remix",
-    },
-    {
-        value: "astro",
-        label: "Astro",
-    },
-];
-
-export function CryptoContent({ name, ticker, price, skeleton }: { name: string; ticker: string; price: string; skeleton: boolean; }) {
+const CryptoContent = React.memo(({ name, ticker, price, skeleton }: { name?: string; ticker?: string; price?: string; skeleton?: boolean; }) => {
     return (
         <>
             {skeleton ?
@@ -83,9 +59,11 @@ export function CryptoContent({ name, ticker, price, skeleton }: { name: string;
                                 <IonRow>
                                     <IonCol size="12" class="font-medium">{name} ({ticker})</IonCol>
                                 </IonRow>
-                                <IonRow>
-                                    <IonCol size="12" class="font-mono text-xs">₱{price}</IonCol>
-                                </IonRow>
+                                {price &&
+                                    <IonRow>
+                                        <IonCol size="12" class="font-mono text-xs">₱{price}</IonCol>
+                                    </IonRow>
+                                }
 
                             </IonCol>
                         </IonRow>
@@ -93,7 +71,7 @@ export function CryptoContent({ name, ticker, price, skeleton }: { name: string;
                 )}
         </>
     )
-}
+})
 
 interface Coin {
     ask: number,
@@ -111,21 +89,34 @@ interface Coin {
 export function ComboboxDemo() {
     const [isOpen, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState<boolean>();
     const [coins, setCoins] = React.useState<Coin[]>([]);
+    const fetchedDataRef = React.useRef<Coin[] | null>(null);
     const times = Array.from({ length: 20 });
-    React.useEffect(() => {
-        const asyncRun = async () => {
-            const tokens = await cryptoFetch()
-            setCoins(tokens)
-            setLoading(false)
-            console.log('mapper', coins)
+    const asyncRun = React.useCallback(async () => {
+        // setLoading(true);
+        // const tokens = await cryptoFetch()
+        // setCoins(tokens)
+        // setLoading(false)
+        
+        if (!fetchedDataRef.current) {
+            const tokens = await cryptoFetch();
+            fetchedDataRef.current = tokens;
+            setCoins(tokens);
+        } else {
+            setCoins(fetchedDataRef.current);
         }
+        setLoading(false);
+    }, [])
+    React.useEffect(() => {
+        setLoading(true);
         if (isOpen) {
             asyncRun()
         }
-    }, [isOpen]);
-
+    }, [isOpen, asyncRun]);
+    React.useEffect(() => {
+        console.log('mapper', coins)
+    }, [coins])
     return (
         <Popover open={isOpen} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -156,9 +147,9 @@ export function ComboboxDemo() {
             </PopoverTrigger>
             <PopoverContent className="w-[100vw] p-2 pt-0">
                 <Command>
-                    <CommandInput placeholder="Search Coin..." />
+                    <CommandInput disabled={loading ? true : false} placeholder="Search Coin..." />
                     <CommandList>
-                        {loading ? 
+                        {loading ?
                             <CommandGroup>
                                 {times.map((_, index) => (
                                     <CommandItem key={index}><CryptoContent skeleton={true} /></CommandItem>
@@ -179,7 +170,7 @@ export function ComboboxDemo() {
                                                 }}
                                             >
                                                 {/* {framework.label} */}
-                                                <CryptoContent name={i.tradedCurrency.name} ticker={i.tradedCurrency.ticker} price="N/A" />
+                                                <CryptoContent name={i.tradedCurrency.name} ticker={i.tradedCurrency.ticker}/>
                                                 <CheckIcon
                                                     className={cn(
                                                         "ml-auto h-4 w-4",

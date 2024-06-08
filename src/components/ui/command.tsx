@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { IonSearchbar } from "@ionic/react";
 import "../styles/command.css";
-import { CryptoContent } from "../CryptoBox";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
