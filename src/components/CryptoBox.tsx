@@ -14,12 +14,8 @@ import {
     CommandList,
     CommandLoading,
 } from "@/components/ui/command";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import { IonCol, IonGrid, IonImg, IonRow, IonSkeletonText } from "@ionic/react";
+
+import { IonCol, IonContent, IonGrid, IonImg, IonPopover, IonRow, IonSkeletonText, IonRippleEffect } from "@ionic/react";
 import { cryptoFetch, cryptoGet } from '../utils/market-price/index.js'
 
 const CryptoContent = React.memo(({ name, ticker, price, skeleton }: { name?: string; ticker?: string; price?: string; skeleton?: boolean; }) => {
@@ -141,76 +137,116 @@ export function ComboboxDemo() {
     React.useEffect(() => {
         console.log('mapper', coins)
     }, [coins])
-    return (
-        <Popover open={isOpen} onOpenChange={setOpen} modal={true}>
-            <PopoverTrigger asChild>
-                <Button
-                    size="lg"
-                    className="w-full bg-white border-[8px] justify-between p-3 h-auto text-start"
-                    role="combobox"
-                    variant="ghost"
-                    aria-expanded={isOpen}
-                >
-                    {value
-                        ? (() => {
-                            const selected = coins.find((i) => i.tradedCurrency.name === value);
-                            return selected ? (
-                                <CryptoContent
-                                    name={selected.tradedCurrency.name}
-                                    ticker={selected.tradedCurrency.ticker}
-                                    price={price ? price : 'N/A'}
-                                    skeleton={price ? false : true}
-                                />
-                            ) : null
-                        })()
-                        :
-                        <CryptoContent skeleton />
-                    }
 
-                    <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[100vw] p-2 pt-0">
-                <Command>
-                    <CommandInput disabled={loading ? true : false} placeholder="Search Coin..." />
-                    <CommandList>
-                        {loading ?
-                            <CommandGroup>
-                                {times.map((_, index) => (
-                                    <CommandItem key={index}><CryptoContent skeleton={true} /></CommandItem>
-                                ))}
-                            </CommandGroup> :
-                            <>
-                                <CommandEmpty>Asset not found.</CommandEmpty>
-                                <CommandGroup>
-                                    {coins.map((i) => {
-                                        return (
-                                            <CommandItem
-                                                key={i.currencyPair}
-                                                value={i.tradedCurrency.name}
-                                                keywords={[i.tradedCurrency.ticker]}
-                                                onSelect={(currentValue) => {
-                                                    setValue(currentValue === value ? "" : currentValue);
-                                                    setOpen(false);
-                                                }}
-                                            >
-                                                {/* {framework.label} */}
-                                                <CryptoContent name={i.tradedCurrency.name} ticker={i.tradedCurrency.ticker} />
-                                                <CheckIcon
-                                                    className={cn(
-                                                        "ml-auto h-4 w-4",
-                                                        value === i.tradedCurrency.name ? "opacity-100" : "opacity-0"
-                                                    )}
-                                                />
-                                            </CommandItem>
-                                        )
-                                    })}
-                                </CommandGroup>
-                            </>
-                        }
-                    </CommandList>
-                </Command>
-            </PopoverContent>
-        </Popover>
+    // const CoinDisplay = ({ ...props }) => (
+    //     <Button
+    //         size="lg"
+    //         className="w-full bg-white border-[8px] justify-between p-3 h-auto text-start"
+    //         role="combobox"
+    //         variant="ghost"
+    //         aria-expanded={isOpen}
+    //         {...props}
+    //     >
+    //         {value
+    //             ? (() => {
+    //                 const selected = coins.find((i) => i.tradedCurrency.name === value);
+    //                 return selected ? (
+    //                     <CryptoContent
+    //                         name={selected.tradedCurrency.name}
+    //                         ticker={selected.tradedCurrency.ticker}
+    //                         price={price ? price : 'N/A'}
+    //                         skeleton={price ? false : true}
+    //                     />
+    //                 ) : null
+    //             })()
+    //             :
+    //             <CryptoContent skeleton />
+    //         }
+
+    //         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+    //     </Button>
+    // )
+    const popoverHnadler = () => {
+        setOpen(true)
+    }
+    const SearchCoinList = () => (
+        <Command>
+            <CommandInput disabled={loading ? true : false} placeholder="Search Coin..." />
+            <CommandList>
+                {loading ?
+                    <CommandGroup>
+                        {times.map((_, index) => (
+                            <CommandItem key={index}><CryptoContent skeleton={true} /></CommandItem>
+                        ))}
+                    </CommandGroup> :
+                    <>
+                        <CommandEmpty>Asset not found.</CommandEmpty>
+                        <CommandGroup>
+                            {coins.map((i) => {
+                                return (
+                                    <CommandItem
+                                        key={i.currencyPair}
+                                        value={i.tradedCurrency.name}
+                                        keywords={[i.tradedCurrency.ticker]}
+                                        className="overflow-hidden relative ion-activatable"
+                                        onSelect={(currentValue) => {
+                                            setValue(currentValue === value ? "" : currentValue);
+                                            setOpen(false);
+                                        }}
+                                    >
+                                        {/* {framework.label} */}
+                                        <CryptoContent name={i.tradedCurrency.name} ticker={i.tradedCurrency.ticker} />
+                                        <CheckIcon
+                                            className={cn(
+                                                "ml-auto h-4 w-4",
+                                                value === i.tradedCurrency.name ? "opacity-100" : "opacity-0"
+                                            )}
+                                        />
+                                        <IonRippleEffect></IonRippleEffect>
+                                    </CommandItem>
+                                )
+                            })}
+                        </CommandGroup>
+                    </>
+                }
+            </CommandList>
+        </Command>
+    )
+    return (
+        <>
+            <Button
+                size="lg"
+                className="overflow-hidden relative ion-activatable w-full bg-white border-[8px] justify-between p-3 h-auto text-start"
+                role="combobox"
+                variant="ghost"
+                aria-expanded={isOpen}
+                id="coindisplay-trigger"
+                onClick={popoverHnadler}
+            >
+                {value
+                    ? (() => {
+                        const selected = coins.find((i) => i.tradedCurrency.name === value);
+                        return selected ? (
+                            <CryptoContent
+                                name={selected.tradedCurrency.name}
+                                ticker={selected.tradedCurrency.ticker}
+                                price={price ? price : 'N/A'}
+                                skeleton={price ? false : true}
+                            />
+                        ) : null
+                    })()
+                    :
+                    <CryptoContent skeleton />
+                }
+
+                <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                <IonRippleEffect></IonRippleEffect>
+            </Button>
+            <IonPopover trigger="coindisplay-trigger" triggerAction="click" alignment="center" isOpen={isOpen} side="bottom" size="cover" onDidDismiss={() => { setOpen(false) }}>
+                <IonContent>
+                    <SearchCoinList />
+                </IonContent>
+            </IonPopover>
+        </>
     );
 }
