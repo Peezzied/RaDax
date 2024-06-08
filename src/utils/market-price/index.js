@@ -14,12 +14,12 @@ export const cryptoFetch = async () => {
 }
 
 export const cryptoGet = async (get) => {
-    console.log('getting crypto prices')
+    console.log('getting crypto prices', get)
     let res = await fetch('https://services.pdax.ph/api/liquidity/otc/v1/marketprices')
     let data = await res.json()
-
+    console.log('getting crypto prices', data)
     let coin = data.result.find((i) => {
-        return i.tradedCurrency.name === get
+        return i.currencyPair !== '' &&  i.tradedCurrency.name === get
     })
     let askBid = new BuySell(coin.ask, coin.bid)
 

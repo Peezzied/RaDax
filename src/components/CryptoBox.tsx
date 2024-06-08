@@ -126,6 +126,7 @@ export function ComboboxDemo() {
     React.useEffect(() => {
         if (value) {
             (async () => {
+                setPrice(null)
                 const newPrice = await priceHandler(value);
                 setPrice(newPrice);
             })();
@@ -158,11 +159,12 @@ export function ComboboxDemo() {
                                     name={selected.tradedCurrency.name}
                                     ticker={selected.tradedCurrency.ticker}
                                     price={price ? price : 'N/A'}
+                                    skeleton={price ? false : true}
                                 />
                             ) : null
                         })()
                         :
-                        <CryptoContent name="N/A" ticker="N/A" price="N/A" skeleton={true} />
+                        <CryptoContent skeleton />
                     }
 
                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
