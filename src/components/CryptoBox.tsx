@@ -88,7 +88,7 @@ interface Coin {
     updatedAt: number;
 }
 
-export function ComboboxDemo() {
+export default function CryptoBox() {
     const [isOpen, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
     const [loading, setLoading] = React.useState<boolean>();

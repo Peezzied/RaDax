@@ -14,9 +14,16 @@ import {
 } from "ionicons/icons";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import './Home.css'
-import { ComboboxDemo } from "@/components/CryptoBox";
+import CryptoBox from "@/components/CryptoBox";
+import { CalculatePanel } from "@/components/CalculatePanel";
+import { KeyPad } from "@/components/KeyPad";
+import { AppContext, PanelContext } from "@/utils/Contexts";
+import { useState } from "react";
+
+type Operation = "unknown" | "buy" | "sell" 
 
 const Home: React.FC = () => {
+  const [operation, setOperation] = useState<Operation>('buy')
   return (
     <IonPage>
       <IonHeader className="ion-no-border">
@@ -36,7 +43,13 @@ const Home: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <ComboboxDemo/>
+        <div className="flex flex-col gap-3">
+            <AppContext panel={{operation, setOperation}}>
+              <CryptoBox />
+              <CalculatePanel />
+              <KeyPad />
+            </AppContext>
+        </div>
       </IonContent>
     </IonPage>
   );
