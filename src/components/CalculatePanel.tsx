@@ -2,39 +2,41 @@ import { PanelContext, useAppContext } from "@/utils/Contexts";
 import { IonGrid, IonRow, IonCol, IonButton } from "@ionic/react";
 import { useEffect } from "react";
 
-
+const getPanelMeta = (operation: any) => {
+    switch (operation) {
+        case 'buy':
+            return {
+                display: 'Buy',
+                bg: 'bg-[#F6FEF6]',
+                primary: 'bg-[#79D862]',
+                text: 'text-[#389522]',
+            };
+        case 'sell':
+            return {
+                display: 'Sell',
+                bg: 'bg-[#FEF6F9]',
+                primary: 'bg-[#D86287]',
+                text: 'text-[#B72C58]',
+            };
+        case 'unknown':
+        default:
+            return {
+                display: 'Choose an operation',
+                bg: 'bg-[#F9F9F9]',
+                primary: 'bg-[#B9BDB8]',
+                text: 'text-[#858383]',
+            };
+    }
+};
 
 function ConversionDisplay() {
     const { operation, setOperation } = useAppContext(PanelContext)
-    useEffect(() => {
-        setOperation('buy')
-    }, [])
-    const parsedOperation = () => {
-        switch (operation) {
-            case 'buy':
-                return 'Buy'
-            case 'sell':
-                return 'Sell'
-            case 'unknown':
-                return 'Choose an operation'
-        }
-    }
-    const color = () => {
-        switch (operation) {
-            case 'buy':
-                return 'bg-[#F6FEF6]'
-            case 'sell':
-                return 'bg-[#FEF6F9]'
-            case 'unknown':
-                return 'bg-[#F9F9F9]'
-        }
-    }
-    const panelColor = color()
-    const operationText = parsedOperation();
+    const panelMeta = getPanelMeta(operation);
+
     return (
-        <IonCol className={`rounded-[40px] ${panelColor}`}>
+        <IonCol className={`rounded-[40px] ${panelMeta.bg}`}>
             <IonRow>
-                <IonCol className={`bg-[#79D862] bg-opacity-50 rounded-full text-center`}>{operationText}</IonCol>
+                <IonCol className={`${panelMeta.primary} ${panelMeta.text} bg-opacity-50 rounded-full text-center`}>{panelMeta.display}</IonCol>
             </IonRow>
             <IonRow>
                 <IonCol>

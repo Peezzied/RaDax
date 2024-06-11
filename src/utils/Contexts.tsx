@@ -5,8 +5,8 @@ export const UiMode = createContext<any | undefined>(undefined);
 
 export function AppContext({panel, ui, children}: {panel?: any, ui?: any, children: ReactNode}) {
     return (
-        <PanelContext.Provider value={{panel}}>
-            <UiMode.Provider value={{ui}}>
+        <PanelContext.Provider value={panel}>
+            <UiMode.Provider value={ui}>
                 {children}
             </UiMode.Provider>
         </PanelContext.Provider>

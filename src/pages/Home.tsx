@@ -23,7 +23,7 @@ import { useState } from "react";
 type Operation = "unknown" | "buy" | "sell" 
 
 const Home: React.FC = () => {
-  const [operation, setOperation] = useState<Operation>('buy')
+  const [operation, setOperation] = useState<Operation>('unknown')
   return (
     <IonPage>
       <IonHeader className="ion-no-border">
