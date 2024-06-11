@@ -1,6 +1,9 @@
 import { PanelContext, useAppContext } from "@/utils/Contexts";
-import { IonGrid, IonRow, IonCol, IonButton } from "@ionic/react";
+import { IonGrid, IonRow, IonCol } from "@ionic/react";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const getPanelMeta = (operation: any) => {
     switch (operation) {
@@ -63,10 +66,10 @@ function BuySellBtn() {
     return (
         <>
             <IonCol>
-                <IonButton></IonButton>
+                <Button>Buy<FontAwesomeIcon icon={faPlus} /></Button>
             </IonCol>
             <IonCol>
-                <IonButton></IonButton>
+                <Button>Sell<FontAwesomeIcon icon={faMinus} /></Button>    
             </IonCol>
         </>
     )
@@ -75,10 +78,10 @@ function CalculateBtn() {
     return (
         <>
             <IonCol>
-                <IonButton></IonButton>
+                <Button>Calculate</Button>    
             </IonCol>
             <IonCol>
-                <IonButton></IonButton>
+                <Button></Button>
             </IonCol>
         </>
     )
