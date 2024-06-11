@@ -66,10 +66,10 @@ function BuySellBtn() {
     return (
         <>
             <IonCol>
-                <Button>Buy <FontAwesomeIcon icon={faPlus} /></Button>
+                <Button>Buy<FontAwesomeIcon icon={faPlus} /></Button>
             </IonCol>
             <IonCol>
-                <Button>Sell <FontAwesomeIcon icon={faMinus} /></Button>    
+                <Button>Sell<FontAwesomeIcon icon={faMinus} /></Button>    
             </IonCol>
         </>
     )
